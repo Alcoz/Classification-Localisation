@@ -1,5 +1,5 @@
 # Object_Detection
-Pytorch implementation of Object Detection on OXFORD-IIIT PET Dataset
+Pytorch implementation of Object Detection model on OXFORD-IIIT PET Dataset
 
 [1] O. M. Parkhi, A. Vedaldi, A. Zisserman, C. V. Jawahar
    Cats and Dogs
