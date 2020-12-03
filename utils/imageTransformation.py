@@ -1,13 +1,16 @@
 from skimage import transform
+from skimage.util import img_as_float
 import cv2
 import torch
 import numpy as np
+from torchvision import transforms
+
 class Rescale(object):
     def __init__(self, output_size):
         self.output_size = output_size
 
     def __call__(self, sample):
-        image, bndbox, label = sample['image'], sample['bndbox'], sample['label']
+        image, bndbox, label = img_as_float(sample['image']), sample['bndbox'], sample['label']
 
         h, w = image.shape[:2]
         new_h, new_w = self.output_size
@@ -33,4 +36,14 @@ class ToTensor(object):
         image = image.transpose((2, 0, 1))
         return {'image': torch.from_numpy(image),
                 'bndbox': torch.from_numpy(bndbox),
+                'label': label}
+
+class Normalize(object):
+    def __call__(self, sample):
+        image, bndbox, label = sample['image'], sample['bndbox'], sample['label']
+
+        norm = transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        image = norm(image.float())
+        return {'image': image,
+                'bndbox': bndbox,
                 'label': label}
